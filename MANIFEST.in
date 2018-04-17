@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include versioneer.py
+include cobrapy_bigg_client/_version.py
+recursive-include cobrapy_bigg_client/tests/fixtures/ *.tsv
+recursive-include cobrapy_bigg_client/tests/fixtures/models/ *.json
