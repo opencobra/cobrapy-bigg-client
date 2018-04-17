@@ -562,6 +562,8 @@ def get_model_gene(model_id, gene_id):
     gene.annotation[DATABASE_LINKS] = data[DATABASE_LINKS]
     gene.annotation[PROTEIN_SEQUENCE] = data[PROTEIN_SEQUENCE]
 
+    return gene
+
 
 @cached(LRU_CACHE)
 def _get(entry_type, entry_id, model_id):
