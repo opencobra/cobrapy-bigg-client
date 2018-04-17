@@ -492,7 +492,7 @@ def get_metabolite(metabolite_or_id):
             metabolite_copy.compartment = compartment_id
             compartment_data[compartment_id] = metabolite_copy
 
-        compartment_data[compartment_id].annotation[MODELS].add(compartment_data[BIGG_MODEL_ID])
+        compartment_data[compartment_id].annotation[MODELS].add(compartment_data[BIGG_ID])
 
     return metabolite, list(compartment_data.values())
 
@@ -594,6 +594,7 @@ def _build_reaction(copy_data, reaction, copy_number=0, genes=None,
         reaction_copy = reaction
 
     if GENES in copy_data:
+        genes_set = set()
         for gene_data in copy_data[GENES]:
             gene_id = gene_data[BIGG_ID]
             if gene_id in genes:
@@ -603,7 +604,9 @@ def _build_reaction(copy_data, reaction, copy_number=0, genes=None,
             else:
                 gene = Gene(gene_id, gene_data[NAME])
                 _genes[gene_id] = gene
-            reaction_copy.genes.add(gene)
+
+            genes_set.add(gene)
+            reaction_copy._genes = frozenset(genes_set)
 
         reaction_copy._gene_reaction_rule = copy_data[GENE_REACTION_RULE]
 
