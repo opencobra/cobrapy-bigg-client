@@ -570,7 +570,7 @@ def get_metabolite(metabolite_or_id):
             metabolite_copy.compartment = compartment_id
             species[compartment_id] = metabolite_copy
 
-        species[compartment_id].annotation[MODELS].add(compartment_data[BIGG_ID])
+        species[compartment_id].annotation[MODELS].add(compartment_data[BIGG_MODEL_ID])
 
     return metabolite, list(species.values())
 
