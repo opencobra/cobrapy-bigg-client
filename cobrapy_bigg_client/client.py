@@ -263,9 +263,9 @@ def list_models():
 
     LOGGER.info("Found %i models", data[RESULTS_COUNT])
 
-    models = DataFrame(columns=["bigg_id", "metabolites", "reactions", "organism"])
-    for i, datum in enumerate(data[RESULTS]):
-        models.loc[i] = [datum[BIGG_ID], datum[METABOLITE_COUNT], datum[REACTION_COUNT], datum[ORGANISM]]
+    models = DataFrame(columns=["bigg_id", "metabolites", "reactions", "genes", "organism"])
+    for i, d in enumerate(data[RESULTS]):
+        models.loc[i] = [d[BIGG_ID], d[METABOLITE_COUNT], d[GENE_COUNT], d[REACTION_COUNT], d[ORGANISM]]
 
     return models
 
