@@ -1,0 +1,11 @@
+bigg_id	name	bigg_model_id	organism
+Q0045	COX1	iMM904	Saccharomyces cerevisiae S288C
+YBR121C	GRS1	iMM904	Saccharomyces cerevisiae S288C
+b0002	thrA	iJO1366	Escherichia coli str. K-12 substr. MG1655
+b0121	speE	iJO1366	Escherichia coli str. K-12 substr. MG1655
+cadB		iEcDH1_1363	Escherichia coli DH1
+EcDH1_0235		iEcDH1_1363	Escherichia coli DH1
+10005_AT1	ACOT8	Recon3D	Homo sapiens
+100287639_AT1		Recon3D	Homo sapiens
+YPO0003	asnA	iPC815	Yersinia pestis CO92
+YPO0132	feoB	iPC815	Yersinia pestis CO92

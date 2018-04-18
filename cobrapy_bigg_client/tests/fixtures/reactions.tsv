@@ -1,0 +1,14 @@
+bigg_id	name	reaction_string
+DM_4crsol_c	Sink needed to allow p-Cresol to leave system	4crsol_c <->
+DM_amob_c	Sink needed to allow S-Adenosyl-4-methylthio-2-oxobutanoate to leave system	amob_c <->
+EX_23dappa_e	2,3-diaminopropionate exchange	23dappa_e <->
+DOXRBCNtpp	Doxorubicin transport via TolC system	doxrbcn_p + h_p <-> h_c + doxrbcn_e
+DPR	2-dehydropantoate 2-reductase	2dhp_c + h_c + nadph_c <-> nadp_c + pant__R_c
+DSBAO1	DsbA protein reoxidation reaction (aerobic)	q8_c + dsbard_p <-> q8h2_c + dsbaox_p
+DSBAO2	DsbA protein reoxidation reaction (anaerobic)	mqn8_c + dsbard_p <-> mql8_c + dsbaox_p
+DXPRIi	1-deoxy-D-xylulose reductoisomerase	dxyl5p_c + h_c + nadph_c <-> 2me4p_c + nadp_c
+ETHAt2pp	Ethanolamine transport in via proton symport	etha_p + h_p <-> etha_c + h_c
+FEENTERtex	Enterochelin transport (secretion periplasm)	enter_p + h_p <-> h_c + enter_e
+GLUNpp	Glutaminase	gln__L_p + h2o_p <-> glu__L_p + nh4_p
+GPDDA3	Glycerophosphodiester phosphodiesterase (Glycerophosphoserine)	g3ps_c + h2o_c <-> glyc3p_c + h_c + ser__L_c
+METDabcpp	D-methionine transport via ABC system (periplasm)	atp_c + h2o_c + met__D_p <-> adp_c + h_c + met__D_c + pi_c
