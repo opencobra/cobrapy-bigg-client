@@ -560,19 +560,19 @@ def get_metabolite(metabolite_or_id):
     metabolite.annotation[DATABASE_LINKS] = data[DATABASE_LINKS]
     metabolite.annotation[MODELS] = set()
 
-    compartment_data = {}
+    species = {}
 
     for compartment_data in data[COMPARTMENTS_IN_MODELS]:
         compartment_id = compartment_data[BIGG_ID]
-        if compartment_id not in compartment_data:
+        if compartment_id not in species:
             metabolite_copy = metabolite.copy()
             metabolite_copy.id = metabolite_id + "_" + compartment_id
             metabolite_copy.compartment = compartment_id
-            compartment_data[compartment_id] = metabolite_copy
+            species[compartment_id] = metabolite_copy
 
-        compartment_data[compartment_id].annotation[MODELS].add(compartment_data[BIGG_ID])
+        species[compartment_id].annotation[MODELS].add(compartment_data[BIGG_ID])
 
-    return metabolite, list(compartment_data.values())
+    return metabolite, list(species.values())
 
 
 def get_model_metabolite(model_id, metabolite_id):
