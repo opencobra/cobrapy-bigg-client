@@ -265,7 +265,7 @@ def list_models():
 
     models = DataFrame(columns=["bigg_id", "metabolites", "reactions", "genes", "organism"])
     for i, d in enumerate(data[RESULTS]):
-        models.loc[i] = [d[BIGG_ID], d[METABOLITE_COUNT], d[GENE_COUNT], d[REACTION_COUNT], d[ORGANISM]]
+        models.loc[i] = [d[BIGG_ID], d[METABOLITE_COUNT], d[REACTION_COUNT], d[GENE_COUNT], d[ORGANISM]]
 
     return models
 
