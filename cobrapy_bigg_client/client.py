@@ -30,7 +30,6 @@ from cobra.io import model_from_dict
 
 API_VERSION = 'api_version'
 BIGG_ID = "bigg_id"
-BIGG_MODEL_ID = "bigg_model_id"
 BIGG_MODELS_VERSION = 'bigg_models_version'
 CHARGE = "charge"
 CHARGES = "charges"
@@ -52,6 +51,7 @@ MAP_NAME = "map_name"
 MAT_SIZE = "mat_size"
 METABOLITE_COUNT = "metabolite_count"
 METABOLITES = "metabolites"
+MODEL_BIGG_ID = "model_bigg_id"
 MODELS = "models"
 NAME = "name"
 ORGANISM = "organism"
@@ -570,7 +570,9 @@ def get_metabolite(metabolite_or_id):
             metabolite_copy.compartment = compartment_id
             species[compartment_id] = metabolite_copy
 
-        species[compartment_id].annotation[MODELS].add(compartment_data[BIGG_MODEL_ID])
+        print(compartment_data)
+
+        species[compartment_id].annotation[MODELS].add(compartment_data[MODEL_BIGG_ID])
 
     return metabolite, list(species.values())
 
