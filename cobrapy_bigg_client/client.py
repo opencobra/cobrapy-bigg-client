@@ -633,7 +633,7 @@ def list_model_genes(model_id):
     return genes
 
 
-def get_model_gene(model_id, gene_id):
+def get_model_gene(model_id, gene_or_id):
     """
     Retrieve a gene in the context of a model from BiGG.
 
@@ -641,8 +641,8 @@ def get_model_gene(model_id, gene_id):
     ----------
     model_id : str
         A valid id for a model in BiGG.
-    gene_id : str
-        A valid id for a gene in BiGG.
+    gene_or_id : str, Gene
+        A Gene or a valid id for a gene in BiGG.
 
     Returns
     -------
@@ -654,6 +654,14 @@ def get_model_gene(model_id, gene_id):
     requests.HTTPError
         If the request has failed.
     """
+
+    if isinstance(gene_or_id, str):
+        gene_id = gene_or_id
+    elif isinstance(gene_or_id, Gene):
+        gene_id = gene_or_id.id
+    else:
+        raise ValueError(gene_or_id)
+
     data = _get("genes", gene_id, model_id)
 
     LOGGER.info("Found gene %s", gene_id)
