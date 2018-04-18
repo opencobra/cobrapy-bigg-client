@@ -205,7 +205,7 @@ def download_model(model_id, file_format="json", save=True, path="."):
             for block in response.iter_content(1024):
                 model_file.write(block)
     else:
-        response = requests.get(BASE_URL + "models/%s" % model_id)
+        response = requests.get("http://bigg.ucsd.edu/static/models/%s.json" % model_id, stream=True)
         response.raise_for_status()
         return model_from_dict(response.json())
 
