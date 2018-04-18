@@ -22,6 +22,7 @@ import requests
 
 from pandas import DataFrame
 
+from cobra.core.gene import Gene
 from cobra.core.metabolite import Metabolite
 from cobra.core.reaction import Reaction
 from cobra.core.model import Model
@@ -105,6 +106,9 @@ def test_fail_get_metabolite():
     with pytest.raises(requests.HTTPError):
         client.get_metabolite("non-existent")
 
+    with pytest.raises(ValueError):
+        client.get_metabolite(1)
+
 
 def test_get_reaction(reaction):
     model = Model()
@@ -129,6 +133,9 @@ def test_fail_get_reaction():
     with pytest.raises(requests.HTTPError):
         client.get_reaction("non-existent")
 
+    with pytest.raises(ValueError):
+        client.get_reaction(1)
+
 
 def test_get_gene(gene):
     cobra_gene = client.get_model_gene(gene.bigg_model_id, gene.name)
@@ -142,6 +149,9 @@ def test_get_gene(gene):
 def test_fail_get_gene(bigg_model_id):
     with pytest.raises(requests.HTTPError):
         client.get_model_gene(bigg_model_id, "non-existent")
+
+    with pytest.raises(ValueError):
+        client.get_model_gene(bigg_model_id, 1)
 
 
 def test_list_reactions():
@@ -158,3 +168,19 @@ def test_list_metabolites():
     for metabolite in metabolites[:10]:
         assert isinstance(metabolite, Metabolite)
         assert isinstance(metabolite.id, str)
+        full_metabolite, species = client.get_metabolite(metabolite)
+        assert isinstance(full_metabolite, Metabolite)
+        assert full_metabolite.id == metabolite.id
+
+
+def test_list_model_genes(bigg_model_id):
+    genes = client.list_model_genes(bigg_model_id)
+    for gene in genes[:10]:
+        assert isinstance(gene, Gene)
+        assert isinstance(gene.id, str)
+        if gene.name is not None:
+            assert isinstance(gene.name, str)
+
+        full_gene = client.get_model_gene(bigg_model_id, gene)
+        assert full_gene.id == gene.id
+        assert full_gene.name == gene.name
