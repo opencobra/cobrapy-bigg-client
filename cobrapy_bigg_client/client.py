@@ -19,15 +19,13 @@ import logging
 
 from cachetools import LRUCache, cached
 
-from six import StringIO
-
 from pandas import DataFrame
 
 from cobra.core.dictlist import DictList
 from cobra.core.metabolite import Metabolite
 from cobra.core.reaction import Reaction
 from cobra.core.gene import Gene
-from cobra.io import model_from_dict, from_yaml, load_matlab_model, read_sbml_model
+from cobra.io import model_from_dict
 
 
 API_VERSION = 'api_version'
@@ -126,7 +124,8 @@ class ModelSummary(object):
         The timestamp.
     """
 
-    def __init__(self, identifier, organism, genes, reactions, metabolites, escher_maps, file_sizes, genome, last_updated):
+    def __init__(self, identifier, organism, genes, reactions, metabolites, escher_maps,
+                 file_sizes, genome, last_updated):
         self.id = identifier
         self.organism = organism
         self.genes = genes
@@ -138,12 +137,29 @@ class ModelSummary(object):
         self.last_updated = last_updated
 
     def model(self):
-        return download_model(self.id, "json", save=False)
+        """
+        Returns
+        -------
+        model : Model
+            The cobra Model.
+
+        """
+        return download_model(self.id, save=False)
 
 
 def database_version():
     """
-    Retrieves the current version of BiGG database
+    Retrieves the current version of BiGG database.
+
+    Returns
+    -------
+    version : Version
+        The current version information.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     response = requests.get(BASE_URL + "database_version")
     response.raise_for_status()
@@ -155,6 +171,7 @@ def database_version():
 def download_model(model_id, file_format="json", save=True, path="."):
     """
     Download models from BiGG. You can chose to save the file or to return the JSON data.
+
     Parameters
     ----------
     model_id : str
@@ -169,6 +186,16 @@ def download_model(model_id, file_format="json", save=True, path="."):
         If True, writes the model to a file with the model name (the path can be specified).
     path : str
         Specifies in which folder the model should be written if *save* is True.
+
+    Returns
+    -------
+    model : Model
+        If save is False, it returns the parsed model. If save is True, it saves the model in the requested format.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
 
     if save:
@@ -180,23 +207,28 @@ def download_model(model_id, file_format="json", save=True, path="."):
     else:
         response = requests.get(BASE_URL + "models/%s" % model_id)
         response.raise_for_status()
-        if file_format == "json":
-            return model_from_dict(response.json())
-        elif file_format == "ymal":
-            return from_yaml(response.text)
-        elif file_format == "mat":
-            return load_matlab_model(StringIO(response.content))
-        else:
-            return read_sbml_model(StringIO(response.content))
+        return model_from_dict(response.json())
 
 
 def model_details(model_id):
     """
-    Summarize the model.
+    Summarize the model. The summary contains number of genes, reactions, and metabolites, the available escher, and
+    the expected file sizes of the model in compatible formats.
+
     Parameters
     ----------
     model_id : str
         A valid id for a model in BiGG.
+
+    Returns
+    -------
+    summary : ModelSummary
+        A summary of the model content.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     response = requests.get(BASE_URL + "models/%s" % model_id)
     response.raise_for_status()
@@ -219,6 +251,11 @@ def list_models():
     models : DataFrame
         A table summarizing the models.
 
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
+
     """
     response = requests.get(BASE_URL + "models/")
     response.raise_for_status()
@@ -235,7 +272,18 @@ def list_models():
 
 def list_reactions():
     """
-    List all reactions available in BiGG.
+    List all reactions available in BiGG. The reactions do not contain stoichiometry.
+    To retrieve the full reaction use *get_reaction*.
+
+    Returns
+    -------
+    reactions : list
+        A list of Reaction.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("reactions", None, None)
 
@@ -264,6 +312,11 @@ def list_model_reactions(model_id):
     -------
     reactions : DictList
         All model reactions.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
 
     """
     data = _get("reactions", None, model_id)
@@ -297,6 +350,11 @@ def get_reaction(reaction_or_id, metabolites=None, genes=None):
     -------
     reaction : Reaction
         The reaction described in the result. If there are no copies, the reaction is completely described.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
 
     """
     if genes is None:
@@ -345,6 +403,11 @@ def get_model_reaction(model_id, reaction_or_id, metabolites=None, genes=None):
         The reaction described in the result. If there are no copies, the reaction is completely described.
     copies : list
         A list of reactions with stoichiometry and GPR.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     if genes is None:
         genes = {}
@@ -398,6 +461,11 @@ def list_metabolites():
     -------
     metabolites : DictList
         A list of metabolites.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("metabolites", None, None)
 
@@ -423,6 +491,11 @@ def list_model_metabolites(model_id):
     -------
     metabolites : DictList
         A list of metabolites.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("metabolites", None, model_id)
 
@@ -454,6 +527,11 @@ def get_metabolite(metabolite_or_id):
         The universal metabolite (with different possible charges and formulae in annotation).
     species : list
         The possible different metabolite species in different compartments.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
 
     if isinstance(metabolite_or_id, str):
@@ -512,6 +590,11 @@ def get_model_metabolite(model_id, metabolite_id):
     -------
     metabolite : Metabolite
         The metabolite in the model.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("metabolites", metabolite_id, model_id)
     LOGGER.info("Found metabolite %s", metabolite_id)
@@ -527,10 +610,16 @@ def get_model_metabolite(model_id, metabolite_id):
 def list_model_genes(model_id):
     """
     List all genes in a model.
+
     Parameters
     ----------
     model_id : str
         A valid id for a model in BiGG.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("genes", None, model_id)
 
@@ -547,12 +636,23 @@ def list_model_genes(model_id):
 def get_model_gene(model_id, gene_id):
     """
     Retrieve a gene in the context of a model from BiGG.
+
     Parameters
     ----------
     model_id : str
         A valid id for a model in BiGG.
     gene_id : str
         A valid id for a gene in BiGG.
+
+    Returns
+    -------
+    gene : Gene
+        A cobra Gene.
+
+    Raises
+    ------
+    requests.HTTPError
+        If the request has failed.
     """
     data = _get("genes", gene_id, model_id)
 
