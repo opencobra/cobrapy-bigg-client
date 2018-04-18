@@ -1,0 +1,94 @@
+language: python
+python: 3.5
+sudo: false
+cache:
+  directories:
+    - $HOME/.cache/pip
+git:
+  depth: 2
+
+branches:
+ only:
+ - master
+ - devel
+ - /^[0-9]+\.[0-9]+\.[0-9]+[.0-9ab]*$/
+
+env:
+  global:
+    - GITHUB_REPO=opencobra/cobrapy-bigg-client
+
+matrix:
+  fast_finish: true
+  exclude:
+    - python: 3.5
+  include:
+    - os: linux
+      python: 3.5
+      env:
+        - TOXENV=pep8
+    - os: linux
+      python: 2.7
+      env: TOXENV=py27
+    - os: linux
+      python: 3.5
+      env: TOXENV=py35
+    - os: linux
+      python: 3.6
+      env: TOXENV=py36
+    - os: linux
+      python: 3.5
+      env: TOXENV=sbml
+    - os: linux
+      python: 3.5
+      env: TOXENV=array
+
+
+before_install:
+  - travis_retry pip install -U pip setuptools wheel tox
+
+before_cache:
+  - set +e
+
+script:
+  - travis_wait tox
+
+before_deploy:
+- pip install twine sphinx
+- python setup.py sdist
+- cd docs && make apidoc && make html && touch _build/html/.nojekyll
+- cd $TRAVIS_BUILD_DIR
+
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    local_dir: docs/_build/html
+    github_token: $GITHUB_TOKEN
+    target-branch: gh-pages
+    on:
+      branch: master
+      repo: biosustain/marsi
+      condition:
+        - $PY == 3.5
+        - $TRAVIS_OS_NAME == "linux"
+
+  - provider: pypi
+    skip_cleanup: true
+    distributions: sdist bdist_wheel
+    on:
+      tags: true
+      repo: $GITHUB_REPO
+      python: '3.6'
+      condition: $TRAVIS_OS_NAME == "linux"
+    user: $PYPI_USERNAME
+    password: $PYPI_PASSWORD
+
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_TOKEN
+    body: "Please see https://github.com/opencobra/cobrapy-bigg-client/tree/${TRAVIS_TAG}/release-notes/${TRAVIS_TAG}.md for the full release notes."
+    on:
+      tags: true
+      repo: $GITHUB_REPO
+      python: '3.6'
+      condition: $TRAVIS_OS_NAME == "linux"
