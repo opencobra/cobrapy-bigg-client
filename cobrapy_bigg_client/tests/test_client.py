@@ -53,6 +53,12 @@ def test_model_details(bigg_model):
     assert model_summary.metabolites == len(bigg_model.metabolites)
     assert model_summary.genes == len(bigg_model.genes)
     assert model_summary.reactions == len(bigg_model.reactions)
+    model = model_summary.model()
+
+    assert isinstance(model, Model)
+    assert model_summary.metabolites == len(model.metabolites)
+    assert model_summary.reactions == len(model.reactions)
+    assert model_summary.genes == len(model.genes)
 
 
 def test_download_model(model_format, bigg_model_id, tmpdir):
