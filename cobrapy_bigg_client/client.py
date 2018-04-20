@@ -544,9 +544,14 @@ def get_metabolite(metabolite_or_id):
 
     match = METABOLITE_COMPARTMENT_REGEX.match(metabolite_id)
     if match:
-        metabolite_id = match.group(1)
+        universal_metabolite_id = match.group(1)
+    else:
+        universal_metabolite_id = metabolite_id
 
-    data = _get("metabolites", metabolite_id, None)
+    try:
+        data = _get("metabolites", universal_metabolite_id, None)
+    except requests.HTTPError:
+        data = _get("metabolites", metabolite_id, None)
     LOGGER.info("Found metabolite %s", metabolite_id)
 
     metabolite = Metabolite(id=metabolite_id, name=data[NAME])
