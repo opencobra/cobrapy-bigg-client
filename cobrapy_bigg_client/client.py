@@ -525,7 +525,7 @@ def get_metabolite(metabolite_or_id):
     -------
     metabolites : Metabolite
         The universal metabolite (with different possible charges and formulae in annotation).
-    species : list
+    species : dict
         The possible different metabolite species in different compartments.
 
     Raises
@@ -570,11 +570,9 @@ def get_metabolite(metabolite_or_id):
             metabolite_copy.compartment = compartment_id
             species[compartment_id] = metabolite_copy
 
-        print(compartment_data)
-
         species[compartment_id].annotation[MODELS].add(compartment_data[MODEL_BIGG_ID])
 
-    return metabolite, list(species.values())
+    return metabolite, species
 
 
 def get_model_metabolite(model_id, metabolite_id):
