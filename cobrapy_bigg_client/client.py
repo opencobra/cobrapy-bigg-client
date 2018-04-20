@@ -69,7 +69,7 @@ LOGGER = logging.getLogger(__name__)
 BASE_URL = "http://bigg.ucsd.edu/api/v2/"
 
 
-METABOLITE_COMPARTMENT_REGEX = re.compile("^(.+)(_[a-z]?)$")
+METABOLITE_COMPARTMENT_REGEX = re.compile("^(.+)(_[a-z])$")
 
 
 LRU_CACHE = LRUCache(maxsize=524)
