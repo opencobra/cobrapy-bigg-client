@@ -69,7 +69,7 @@ LOGGER = logging.getLogger(__name__)
 BASE_URL = "http://bigg.ucsd.edu/api/v2/"
 
 
-METABOLITE_COMPARTMENT_REGEX = re.compile("^(.+)(_[a-z][a-z]?)$")
+METABOLITE_COMPARTMENT_REGEX = re.compile("^(.+)(_[a-z]?)$")
 
 
 LRU_CACHE = LRUCache(maxsize=524)
@@ -553,6 +553,7 @@ def get_metabolite(metabolite_or_id):
 
     if data[CHARGES]:
         metabolite.charge = data[CHARGES][0]
+    if data[FORMULAE]:
         metabolite.formula = data[FORMULAE][0]
 
     metabolite.annotation[CHARGES] = data[CHARGES]
