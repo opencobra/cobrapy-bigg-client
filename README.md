@@ -1,17 +1,16 @@
-BiGG Models API
-===============
+Cobrapy BiGG Client
+===================
 
 A python API that enables programmatic access to BiGG Models database.
 
 ## Install
 
-To install `bigg_api` just type:
+To install `cobrapy_bigg_client` just type:
 
 ```
-pip install bigg_api
+pip install cobrapy_bigg_client
 ```
 
 ## TODO
 
 * Implement search
-* Write docs
