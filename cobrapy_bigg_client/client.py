@@ -53,6 +53,7 @@ METABOLITE_COUNT = "metabolite_count"
 METABOLITES = "metabolites"
 MODEL_BIGG_ID = "model_bigg_id"
 MODELS = "models"
+MODELS_CONTAINING_REACTION = "models_containing_reaction"
 NAME = "name"
 ORGANISM = "organism"
 PROTEIN_SEQUENCE = "protein_sequence"
@@ -725,6 +726,9 @@ def _build_reaction(copy_data, reaction, copy_number=0, genes=None,
             reaction_copy._genes = frozenset(genes_set)
 
         reaction_copy._gene_reaction_rule = copy_data[GENE_REACTION_RULE]
+    elif MODELS_CONTAINING_REACTION in copy_data:
+        reaction_copy.annotation[MODELS_CONTAINING_REACTION] = [model['bigg_id'] for model
+                                                                in copy_data[MODELS_CONTAINING_REACTION]]
 
     if METABOLITES in copy_data:
         stoichiometry = {}
