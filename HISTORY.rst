@@ -5,6 +5,10 @@ Change Log
 Next Release
 ------------
 
+1.0.8 (2018-05-02)
+------------------
+* Working continuous integration and deployment
+
 1.0.7 (2018-05-02)
 ------------------
 * Update README
