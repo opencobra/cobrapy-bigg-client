@@ -173,7 +173,7 @@ def test_list_metabolites():
     metabolites = client.list_metabolites()
     for metabolite in metabolites[:10]:
         assert isinstance(metabolite, Metabolite)
-        assert isinstance(metabolite.id, str)
+        assert isinstance(metabolite.id, six.string_types)
         full_metabolite, species = client.get_metabolite(metabolite)
         assert isinstance(full_metabolite, Metabolite)
         assert full_metabolite.id == metabolite.id
