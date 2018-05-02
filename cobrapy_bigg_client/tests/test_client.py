@@ -183,9 +183,9 @@ def test_list_model_genes(bigg_model_id):
     genes = client.list_model_genes(bigg_model_id)
     for gene in genes[:10]:
         assert isinstance(gene, Gene)
-        assert isinstance(gene.id, str)
+        assert isinstance(gene.id, six.string_types)
         if gene.name is not None:
-            assert isinstance(gene.name, str)
+            assert isinstance(gene.name, six.string_types)
 
         full_gene = client.get_model_gene(bigg_model_id, gene)
         assert full_gene.id == gene.id
