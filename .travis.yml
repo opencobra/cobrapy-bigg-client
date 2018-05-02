@@ -17,6 +17,7 @@ cache:
 branches:
   only:
   - master
+  - devel
   - "/^\\d+\\.\\d+\\.\\d+[a]?\\d*$/"
 
 env:
