@@ -5,6 +5,16 @@ Change Log
 Next Release
 ------------
 
+1.0.7 (2018-05-02)
+------------------
+* Update README
+* Update release history
+
+1.0.6 (2018-05-01)
+------------------
+* Fix retrieve model association for universal reaction
+* More documentation
+
 1.0.5 (2018-04-20)
 ------------------
 * Improve the get_metabolite method to support universal and species ids.
