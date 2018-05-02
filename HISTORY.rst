@@ -5,6 +5,10 @@ Change Log
 Next Release
 ------------
 
+1.0.9 (2018-05-02)
+------------------
+* Correct PiPy classifiers
+
 1.0.8 (2018-05-02)
 ------------------
 * Working continuous integration and deployment
