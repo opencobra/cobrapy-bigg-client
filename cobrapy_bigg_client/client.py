@@ -379,6 +379,9 @@ def get_reaction(reaction_or_id, metabolites=None, genes=None):
     if reaction is None:
         reaction = Reaction(id=reaction_id, name=data[NAME])
 
+    if DATABASE_LINKS in data:
+        reaction.annotation[DATABASE_LINKS] = data[DATABASE_LINKS]
+
     reaction = _build_reaction(data, reaction, 0, genes, None, metabolites, None)
     return reaction
 
