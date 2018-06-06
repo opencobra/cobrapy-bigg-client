@@ -5,6 +5,10 @@ Change Log
 Next Release
 ------------
 
+1.0.10 (2018-06-06)
+-------------------
+* Add database references to reaction
+
 1.0.9 (2018-05-02)
 ------------------
 * Correct PiPy classifiers
