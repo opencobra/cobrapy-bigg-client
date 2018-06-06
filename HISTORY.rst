@@ -5,6 +5,10 @@ Change Log
 Next Release
 ------------
 
+1.0.11 (2018-06-97)
+-------------------
+* Fix reactions with multiple copies
+
 1.0.10 (2018-06-06)
 -------------------
 * Add database references to reaction

@@ -451,7 +451,7 @@ def get_model_reaction(model_id, reaction_or_id, metabolites=None, genes=None):
         _genes = {}
         _metabolites = {}
         for copy_data in copies_data:
-            _copy = _build_reaction(copy_data, reaction, data[COPY_NUMBER], genes, _genes, metabolites, _metabolites)
+            _copy = _build_reaction(copy_data, reaction, copy_data[COPY_NUMBER], genes, _genes, metabolites, _metabolites)
             copies.append(_copy)
 
     return reaction, copies
